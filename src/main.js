@@ -1,3 +1,4 @@
+try { require('node:fs').appendFileSync(require('node:os').tmpdir() + '/mq-desktop-boot.log', new Date().toISOString() + ' boot\n'); } catch (e) {}
 const { app, BrowserWindow, shell, Menu, nativeTheme } = require('electron');
 const path = require('node:path');
 
@@ -17,12 +18,15 @@ function createWindow() {
     title: '学海',
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#111827' : '#f4f7fb',
     icon: path.join(__dirname, '..', 'build', 'icon.png'),
-    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
+    // 使用系统标题栏：支持双击最大化，且窗口按钮不会压住页面左上角的返回按钮。
+    titleBarStyle: 'default',
+    autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
       spellcheck: false,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
