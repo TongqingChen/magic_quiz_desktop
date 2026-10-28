@@ -28,6 +28,7 @@
       "src/**/*",
       "package.json"
     ],
+    "afterPack": "scripts/after-pack.js",
     "mac": {
       "category": "public.app-category.education",
       "target": [
@@ -63,6 +64,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
+    },
+    "dmg": {
+      "format": "UDBZ"
     }
   }
 }

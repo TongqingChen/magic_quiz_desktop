@@ -48,8 +48,17 @@ npx electron-builder --mac -c.electronDist=/path/to/electron-dist
 
 ## 签名说明
 
-- macOS：未签名/未公证时首次打开需右键「打开」；正式分发需 Apple Developer 账号 + notarize；
+- macOS：构建后用 `scripts/after-pack.js` 做 **ad-hoc 签名**（`codesign --force --deep --sign -`）。
+  没有这一步时 Apple Silicon 会把只带 linker 签名的包判定为「已损坏，无法打开」；
+  ad-hoc 签名后系统只会提示「无法验证开发者」，右键 →「打开」或
+  `xattr -dr com.apple.quarantine /Applications/学海.app` 即可运行。
+  要彻底去掉提示，需要 Apple Developer ID 证书 + notarize（付费账号）。
 - Windows：未签名会被 SmartScreen 拦截；正式分发建议 OV/EV 代码签名证书。
+
+## DMG 压缩
+
+`build.dmg.format` 固定为 `UDBZ`（bzip2）。默认压缩下 x64 包会超过 Gitee 单个附件
+100 MB 的上限（实测签名后 100.1 MiB 被拒），UDBZ 可把包体压到 ~86 / ~91 MiB。
 
 ## 发布
 
