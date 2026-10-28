@@ -2,8 +2,9 @@ try { require('node:fs').appendFileSync(require('node:os').tmpdir() + '/mq-deskt
 const { app, BrowserWindow, shell, Menu, nativeTheme } = require('electron');
 const path = require('node:path');
 
-// 远端优先：桌面端始终加载线上最新 H5，避免每次发版都重新分发包。
-const APP_URL = process.env.MQ_APP_URL || 'https://docs.tsinghua-wx.org/app/';
+// 远端优先：桌面端始终加载线上最新 Web 版（桌面布局，侧边导航），
+// 避免每次发版都重新分发包，也避免把移动端 H5 界面放进大屏窗口。
+const APP_URL = process.env.MQ_APP_URL || 'https://docs.tsinghua-wx.org/';
 const LOCAL_INDEX = path.join(__dirname, '..', 'renderer', 'index.html');
 const useLocal = process.env.MQ_USE_LOCAL === '1';
 

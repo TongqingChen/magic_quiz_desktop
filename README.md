@@ -1,6 +1,6 @@
 # 学海桌面端（Electron）
 
-Windows / macOS 桌面客户端，加载线上 H5（https://docs.tsinghua-wx.org/app/），与 Web、小程序共用同一套界面与数据。
+Windows / macOS 桌面客户端，加载线上 Web 版（https://docs.tsinghua-wx.org/，桌面布局），与 Web、小程序共用同一套界面与数据。
 
 ## 开发
 
@@ -11,8 +11,17 @@ npm run dev
 
 可用环境变量：
 
-- `MQ_APP_URL`：覆盖加载地址（默认线上 `/app/`）
+- `MQ_APP_URL`：覆盖加载地址（默认线上 Web 版根路径）
 - `MQ_USE_LOCAL=1`：加载本地 `renderer/index.html`（离线包场景）
+
+## 为什么加载 Web 版而不是 H5
+
+Web 版（`https://docs.tsinghua-wx.org/`）是面向大屏的桌面布局（侧边导航、宽表格、多列卡片），
+H5（`/app/`）是移动端底部 Tab 布局，放进 1280×860 的桌面窗口会显得空旷、导航层级也不一致。
+两者接口完全一致，因此桌面端默认加载 Web 版即可，无需每次发版重新打包。
+
+如果要做**离线安装包**，把 `mq_frontend/dist` 复制到 `renderer/` 后设置 `MQ_USE_LOCAL=1` 即可，
+但每次 Web 发版都要重新打包分发，成本更高，所以默认仍是「远端优先 + 加载 Web 版」。
 
 ## 打包
 
